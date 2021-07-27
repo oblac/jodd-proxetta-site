@@ -1,6 +1,6 @@
 # Pointcuts
 
-_Proxetta_ pointcuts are defined in pure Java. Pointcut is defined by simple functional interface: `ProxyPointcut#apply()` that should return `true` if target method is a pointcut and if proxy should be applied on it. Since pointcut applying is done in pure Java, user may define pointcuts in various proprietary ways.
+**Proxetta** pointcuts are defined in pure Java. Pointcut is defined by simple functional interface: `ProxyPointcut#apply()` that should return `true` if target method is a pointcut and if proxy should be applied on it. Since pointcut applying is done in pure Java, user may define pointcuts in various proprietary ways.
 
 The following example shows the definition of a pointcut on all methods that are marked with custom annotation: `@Log`.
 

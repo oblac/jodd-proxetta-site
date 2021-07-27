@@ -1,10 +1,10 @@
 # Invocation replacement
 
-And now, something completely different:\) _Proxetta_ provides proxy mechanism that may **replace** almost any method invocation, including object creation \(i.e. constructors\) with custom method call. For example, it is possible to replace invocation of some interface methods with some custom implementation. Or, ahead to more loose-coupled code, it is possible to replace object creation with factory method that returns wired and populated objects.
+And now, something completely different:\) **Proxetta** provides proxy mechanism that may **replace** almost any method invocation, including object creation \(i.e. constructors\) with custom method call. For example, it is possible to replace invocation of some interface methods with some custom implementation. Or, ahead to more loose-coupled code, it is possible to replace object creation with a factory method that returns wired and populated objects.
 
 ### Usage
 
-Usage is identical to how _Proxetta_ works with dynamic proxies - we just need to provide different type of aspects: `InvokeAspect`. `InvokeAspect` defines the **pointcut**, i.e. the method invocation that should be replaced and the **advice**, i.e. destination method that should be invoked instead.
+Usage is identical to how **Proxetta** works with dynamic proxies - we just need to provide different types of aspects: `InvokeAspect`. `InvokeAspect` defines the **pointcut**, i.e. the method invocation that should be replaced and the **advice**, i.e. destination method that should be invoked instead.
 
 Here is an example of proxy creation:
 
@@ -19,13 +19,13 @@ Proxetta proxetta = Proxy.invokeProxetta().withAspect(
 };
 ```
 
-Invoke aspect is set here on all invocations of method named `foo()`. Invocations will be replaced with the static method `Replacer.bar()`. Now, lets apply the proxy:
+Invoke aspect is set here on all invocations of method named `foo()`. Invocations will be replaced with the static method `Replacer.bar()`. Now, let's apply the proxy:
 
 ```java
 One one = proxetta.proxy().setTarget(One.class).newInstance();
 ```
 
-Instance of `One` is now proxified. If class `One` looks like this:
+The instance of `One` is now proxified. If class `One` looks like this:
 
 ```java
 public class One {
@@ -85,7 +85,7 @@ TimeClass timeClass =
 }).builder(TimeClass.class).newInstance();
 ```
 
-What we have here? We created `InvokeAspect` that will be applied on all top-level methods of target class \(`TimeClass` in this example\); and in the pointcut we defined _what_ invocation to replace and the _replacement_ call. Now, the code will call `MySystem.currentTimeMillis` instead of `System`'s' method in all top-level methods of `TimeClass`.
+What we have here? We created `InvokeAspect` that will be applied on all top-level methods of the target class \(`TimeClass` in this example\); and in the pointcut we defined _what_ invocation to replace and the _replacement_ call. Now, the code will call `MySystem.currentTimeMillis` instead of `System`'s' method in all top-level methods of `TimeClass`.
 
 Remember:
 
@@ -97,7 +97,7 @@ Simple, right :\)
 
 `InvokeInfo` contains a lot of information about the methods being invoked. It is used to determine if some method call should be replaced or not. Using `InvokeInfo` we can get class name, method signatures, arguments etc. of the invoked methods; so we can decide if some invocation is a target one, one that should be replaced.
 
-`InvokeReplacer` holds information about the replacement method - the one that will be invoked _instead_ the target method. Replacement method is defined as a class name and a method name.
+`InvokeReplacer` holds information about the replacement method - the one that will be invoked _instead_ of the target method. Replacement method is defined as a class name and a method name.
 
 Replacement methods must be static! {: .attn}
 
@@ -105,7 +105,7 @@ Moreover, using `InvokeReplacer` we can instruct to pass some additional argumen
 
 #### Dynamic replacements
 
-Because replacement method is defined as a string, we can build them dynamically, as in following example:
+Because the replacement method is defined as a string, we can build them dynamically, as in the following example:
 
 ```java
 invokeInfo -> {
@@ -133,13 +133,13 @@ Static methods are replaced without any additional arguments.
 
 #### Interface methods
 
-Similar as virtual methods, interface method calls are replaced with method call that receives an additional argument, that is interface implementation.
+Similar to virtual methods, interface method calls are replaced with method call that receives an additional argument, that is interface implementation.
 
 #### Constructors
 
 Constructors' replacement methods doesn't receive any additional argument and must return the created instance. Important: due to VM bytecode, when replacing constructors, there must be a replacement method for each present constructor!
 
-Replacing constructors creation with method invocation might be powerful feature. Lets take an example:
+Replacing constructors creation with method invocation might be a powerful feature. Let's take an example:
 
 ```java
 public class One {
@@ -156,7 +156,7 @@ public class Two() {
 }
 ```
 
-If we call method `One#example()` it would, obviously, print "`null`". Now, lets replace the constructor call with _Proxetta_:
+If we call method `One#example()` it would, obviously, print "`null`". Now, let's replace the constructor call with **Proxetta**:
 
 ```java
 InvokeProxetta proxetta = Proxy.invokeProxetta.proxy().withAspect(
@@ -187,7 +187,7 @@ If we run proxified class `One`, this time we will have the result `hello`. And 
 
 ### Additional arguments
 
-The replacement method receives all arguments as replaced method, plus the reference to target instance if available. However, we can instruct `InvokeReplacer` to provide more arguments in replacement methods. Here are the available additional arguments:
+The replacement method receives all arguments as a replaced method, plus the reference to target instance if available. However, we can instruct `InvokeReplacer` to provide more arguments in replacement methods. Here are the available additional arguments:
 
 * owner name
 * method name
@@ -201,7 +201,7 @@ All additional arguments are placed at the end, after existing method arguments.
 
 How does the **Proxetta** do all this? It creates an identical subclass as a target, but with replaced method invocations.
 
-Because of the nature of subclass, there are some VM limitation that we have to be aware of.
+Because of the nature of subclass, there are some VM limitations that we have to be aware of.
 
 #### Don't call super\(\)
 
@@ -209,5 +209,5 @@ Because `super.super` is not provided by VM.
 
 #### Constructors are executed twice
 
-Since subclass copies constructors too, they will be executed as well as the target class constructors. So all initialization will be executed twice, once for proxified class, then for the target class. Therefore, do not put heavy-duty initialization in constructor.
+Since subclass copies constructors too, they will be executed as well as the target class constructors. So all initialization will be executed twice, once for proxified class, then for the target class. Therefore, do not put heavy-duty initialization in the constructor.
 

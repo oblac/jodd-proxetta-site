@@ -1,6 +1,6 @@
 # Advices
 
-_Proxetta_ advices are unique: they are written in the same way as one would write overridden method in a subclass. Accessing target method or info is done with special _macro_ markers.
+**Proxetta** advices are unique: they are written in the same way as one would write overridden method in a subclass. Accessing target method or info is done with special _macro_ markers.
 
 Advices implement the `ProxyAdvice` interface that has just one method: `execute()`. Now, the question is how _Proxetta_ references the proxy target, i.e. the pointcut method that is proxified. Instead of having some custom \(handler\) object filled with data about the target method \(pointcut\), _Proxetta_ introduces special 'macro' class `ProxyTarget` for this purpose. `ProxyTarget` is just a dummy class and all its methods are empty! `ProxyTarget` methods serves just as macros that will be _replaced_ by appropriate bytecode that does what macro method is specified for! After replacing `ProxyTarget` macro methods, all dependencies on `ProxyTarget` are gone. Macro methods are replaced with the bytecode that mimic the code that developer would write by himself, if he would like to subclass target class and override target method \(pointcut\).
 
