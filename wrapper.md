@@ -4,7 +4,7 @@
 
 ### WrapperProxetta overview
 
-![](.gitbook/assets/wrapperproxetta%20%281%29.png)
+![](<.gitbook/assets/WrapperProxetta (1).png>)
 
 `WrapperProxetta` generates new class that delegates calls to target class instance. It is not enough to create a wrapper class and the instance - you must inject the target instead into it, too.
 
@@ -16,7 +16,7 @@ Resulting object is custom type that implements all interfaces of the target. Al
 
 #### Wrapper over class, casted to interface
 
-Similar as above, except the resulting type implements one interface \(provided by user\). Still, all target methods are wrapped, even those that does not belong to the interface. They can be invoked using e.g. reflection.
+Similar as above, except the resulting type implements one interface (provided by user). Still, all target methods are wrapped, even those that does not belong to the interface. They can be invoked using e.g. reflection.
 
 #### Wrapper over interface
 
@@ -38,4 +38,3 @@ WrapperProxettaFactory factory = proxetta
 Calc calc = factory.newInstance();
 factory.injectTargetIntoWrapper(calc, calculatorObject);
 ```
-

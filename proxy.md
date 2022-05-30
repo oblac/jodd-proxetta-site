@@ -12,9 +12,9 @@ ProxyAspect aspect = ProxyAspect.of(LogProxyAdvice.class, pointcut);
 
 This page describes `ProxyProxetta` type of proxies, but many things here are common for other _Proxetta_ types as well. {: .attn}
 
-### Creating Proxetta \(step 1\)
+### Creating Proxetta (step 1)
 
-For each type of _Proxetta_, there is a static factory method \(yes, you can use `new` instead if that is your thing\):
+For each type of _Proxetta_, there is a static factory method (yes, you can use `new` instead if that is your thing):
 
 ```java
 Proxetta.proxyProxetta();
@@ -35,7 +35,7 @@ ProxyProxetta proxetta =  Proxetta
 
 Now it's time to configure created _ProxyProxetta_ - or you can just skip the next step and go with the defaults.
 
-### Proxetta configuration \(step 2\)
+### Proxetta configuration (step 2)
 
 Each `Proxetta` implementation share the same set of properties.
 
@@ -59,7 +59,7 @@ Defines class name suffix of generated classes.
 
 When debug folder is set, _Proxetta_ will save all classes upon their creation into that folder. Very useful for debugging purposes!
 
-### Creating Proxy \(step 3\)
+### Creating Proxy (step 3)
 
 Finally, once when `Proxetta` is created and configured, we can re-use it multiple times to create a **factory** for proxies. _Proxetta_ proxy factories are responsible for creating proxy classes using bytecode manipulation.
 
@@ -87,11 +87,11 @@ or, directly an instance:
 Foo foo = proxetta.proxy().setTarget(Foo.class).newInstance();
 ```
 
-Note: generated classes do not contain any debug information to avoid `ClassFormatError`. Some 3rd party tools \(like Emma\) may loose some local variable information. {: .attn}
+Note: generated classes do not contain any debug information to avoid `ClassFormatError`. Some 3rd party tools (like Emma) may loose some local variable information. {: .attn}
 
 ### ProxyProxetta overview
 
-![](.gitbook/assets/proxyproxetta%20%281%29.png)
+![](<.gitbook/assets/ProxyProxetta (1).png>)
 
 `ProxyProxetta` extends a target class. Pointcut method are overridden in proxy. During the execution of adviced code in generated method, target method is called using `super` reference. Proxy methods has the same annotations as the target methods.
 
@@ -107,17 +107,15 @@ Sometimes it is needed to have more control over proxy class name and package. T
 
 _Proxetta_ allows to completely control proxy names. Every method for proxy definition and proxy creation accept second argument that defines proxy name in the following ways:
 
-* `.Foo` \(class name starts with a dot\) - proxy package name is equal to
+*   `.Foo` (class name starts with a dot) - proxy package name is equal to
 
-  target package, just proxy simple class name is set.
+    target package, just proxy simple class name is set.
+*   `foo.` (class name ends with a dot) - proxy package is set, proxy
 
-* `foo.` \(class name ends with a dot\) - proxy package is set, proxy
+    simple name is create from target simple class name (suffix is
 
-  simple name is create from target simple class name \(suffix is
-
-  appended\).
-
-* `foo.Foo` - full proxy class name is specified \(suffix is appended\).
+    appended).
+* `foo.Foo` - full proxy class name is specified (suffix is appended).
 
 Adding suffix can be also completely disabled, but in that case different package for proxy class must be provided, since it is not possible to define two classes with the same package and simple names.
 
@@ -125,7 +123,6 @@ Proxy name is set on builder using `setTargetProxyClassName()`.
 
 ### Integration with Petite
 
-It is easy to apply aspects on beans registered in the [_Petite_](/petite/) container transparently. _Petite_ has single point method for beans registration. User may override this method and create proxy for each bean type before it is actually registered in the container.
+It is easy to apply aspects on beans registered in the [_Petite_](https://app.gitbook.com/petite/) container transparently. _Petite_ has single point method for beans registration. User may override this method and create proxy for each bean type before it is actually registered in the container.
 
 There is already a class that does that: `ProxettaAwarePetiteContainer`.
-
